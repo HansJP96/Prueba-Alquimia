@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "target": "ESNext",
+    "outDir": "./src/models/out",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "checkJs": true,
+    "sourceMap": true,
+    "declaration": true,
+    "isolatedModules": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "./src/models/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "./src/models/out",
+    "./src/routes",
+    "./src/controller",
+    "./src/assets"
+  ],
+}

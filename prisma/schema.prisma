@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator prismaClassGenerator {
+  provider   = "prisma-class-generator"
+  output     = "../src/models"
+  dryRun     = false
+  useSwagger = false
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Personaje {
+  id       Int    @id @default(autoincrement())
+  nombre   String @unique @db.VarChar(100)
+  edad     Int    @db.Int
+  peso     Float  @db.Float
+  historia String @db.VarChar(600)
+  imagen   String @default("https://whetstonefire.org/wp-content/uploads/2020/06/image-not-available.jpg") @db.VarChar(500)
+  peliculas PersonajeEnPelicula[]
+}
+
+model Pelicula {
+  id             Int                   @id @default(autoincrement())
+  titulo         String                @db.VarChar(256)
+  fecha_creacion DateTime              @db.DateTime(0)
+  calificacion   Int                   @db.UnsignedTinyInt
+  imagen         String                @default("https://whetstonefire.org/wp-content/uploads/2020/06/image-not-available.jpg") @db.VarChar(500)
+  personajes     PersonajeEnPelicula[]
+  generos        GeneroEnPelicula[]
+}
+
+model Genero {
+  id        Int                @id @default(autoincrement())
+  nombre    String             @db.VarChar(50)
+  imagen    String             @default("https://whetstonefire.org/wp-content/uploads/2020/06/image-not-available.jpg") @db.VarChar(500)
+  peliculas GeneroEnPelicula[]
+}
+
+model PersonajeEnPelicula {
+  personaje   Personaje @relation(fields: [idPersonaje], references: [id])
+  idPersonaje Int
+  pelicula    Pelicula  @relation(fields: [idPelicula], references: [id])
+  idPelicula  Int
+
+  @@id([idPersonaje, idPelicula])
+}
+
+model GeneroEnPelicula {
+  genero     Genero   @relation(fields: [idGenero], references: [id])
+  idGenero   Int
+  pelicula   Pelicula @relation(fields: [idPelicula], references: [id])
+  idPelicula Int
+
+  @@id([idGenero, idPelicula])
+}
