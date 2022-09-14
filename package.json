@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "babel app.js -d dist",
-    "webpack": "webpack --watch",
-    "start": "babel-node dist/app.js",
+    "webpack": "webpack",
+    "start": "node dist/app.js",
     "dev": "npm-run-all --parallel webpack  start:dev",
     "start:dev": "babel-watch dist/app.js"
   },
