@@ -5,10 +5,12 @@
   "main": "app.js",
   "scripts": {
     "build": "babel app.js -d dist",
-    "webpack": "webpack",
+    "build-prod": "npm run build && npm run webpack-prod",
+    "webpack-prod": "webpack",
+    "webpack-dev": "webpack --watch",
     "start": "node dist/app.js",
-    "dev": "npm-run-all --parallel webpack  start:dev",
-    "start:dev": "babel-watch dist/app.js"
+    "dev": "npm-run-all --parallel webpack-dev start-dev",
+    "start-dev": "babel-watch dist/app.js"
   },
   "keywords": ["Disney","Node","Express","API"],
   "author": "Hansee Jimenez",
