@@ -1,4 +1,4 @@
-import { codeError } from "./codeErrors"
+import { codeError } from "./CodeErrors"
 import { prismaErrorHandler } from "./PrismaErrorHandler"
 import { javascriptRuntimeErrorHandler } from "./RunTimeErrorHandler"
 import { typeError } from "./TypeErrors"

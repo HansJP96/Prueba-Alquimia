@@ -970,6 +970,32 @@ router.use("/genres", _GenresRoutes__WEBPACK_IMPORTED_MODULE_3__["default"]);
 
 /***/ }),
 
+/***/ "./src/utils/errors/CodeErrors.js":
+/*!****************************************!*\
+  !*** ./src/utils/errors/CodeErrors.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "codeError": () => (/* binding */ codeError)
+/* harmony export */ });
+/* harmony import */ var _TypeErrors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TypeErrors */ "./src/utils/errors/TypeErrors.js");
+
+const codeError = error => {
+  switch (error.message) {
+    case "Cod-001":
+      error.typeError = _TypeErrors__WEBPACK_IMPORTED_MODULE_0__.typeError.AUTHENTICATION_ERROR;
+      error.message = "Cod-001 Password validation process has failed";
+      break;
+
+    default:
+      break;
+  }
+};
+
+/***/ }),
+
 /***/ "./src/utils/errors/PrismaErrorHandler.js":
 /*!************************************************!*\
   !*** ./src/utils/errors/PrismaErrorHandler.js ***!
@@ -1022,7 +1048,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "responseError": () => (/* binding */ responseError)
 /* harmony export */ });
-/* harmony import */ var _codeErrors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./codeErrors */ "./src/utils/errors/codeErrors.js");
+/* harmony import */ var _CodeErrors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CodeErrors */ "./src/utils/errors/CodeErrors.js");
 /* harmony import */ var _PrismaErrorHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PrismaErrorHandler */ "./src/utils/errors/PrismaErrorHandler.js");
 /* harmony import */ var _RunTimeErrorHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RunTimeErrorHandler */ "./src/utils/errors/RunTimeErrorHandler.js");
 /* harmony import */ var _TypeErrors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TypeErrors */ "./src/utils/errors/TypeErrors.js");
@@ -1033,7 +1059,7 @@ __webpack_require__.r(__webpack_exports__);
 const responseError = (message, error) => {
   (0,_PrismaErrorHandler__WEBPACK_IMPORTED_MODULE_1__.prismaErrorHandler)(error);
   (0,_RunTimeErrorHandler__WEBPACK_IMPORTED_MODULE_2__.javascriptRuntimeErrorHandler)(error);
-  (0,_codeErrors__WEBPACK_IMPORTED_MODULE_0__.codeError)(error);
+  (0,_CodeErrors__WEBPACK_IMPORTED_MODULE_0__.codeError)(error);
 
   if (!error.typeError) {
     error.typeError = _TypeErrors__WEBPACK_IMPORTED_MODULE_3__.typeError.UNIDENTIFIED;
@@ -1090,32 +1116,6 @@ const typeError = {
   JAVASCRIPT_ERROR: "JAVASCRIPT RUNTIME ERROR",
   EMPTY_BODY: "EMPTY BODY",
   BAD_INPUT_DATA: "BAD INPUT DATA"
-};
-
-/***/ }),
-
-/***/ "./src/utils/errors/codeErrors.js":
-/*!****************************************!*\
-  !*** ./src/utils/errors/codeErrors.js ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "codeError": () => (/* binding */ codeError)
-/* harmony export */ });
-/* harmony import */ var _TypeErrors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TypeErrors */ "./src/utils/errors/TypeErrors.js");
-
-const codeError = error => {
-  switch (error.message) {
-    case "Cod-001":
-      error.typeError = _TypeErrors__WEBPACK_IMPORTED_MODULE_0__.typeError.AUTHENTICATION_ERROR;
-      error.message = "Cod-001 Password validation process has failed";
-      break;
-
-    default:
-      break;
-  }
 };
 
 /***/ }),
