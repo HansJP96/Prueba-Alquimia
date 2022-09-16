@@ -1,5 +1,5 @@
 import express from "express";
-import router from "./src/routes/router";
+import router from "./src/routes/Router";
 import dotenv from "dotenv";
 import path from "path";
 import engine from "consolidate";

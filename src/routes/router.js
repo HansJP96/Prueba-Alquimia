@@ -1,8 +1,8 @@
 import express from "express";
-import authRouter from "./authRoutes";
-import characterRouter from "./charactersRoutes";
-import genreRouter from "./genresRoutes";
-import moviesRouter from "./moviesRoutes";
+import authRouter from "./AuthRoutes";
+import characterRouter from "./CharactersRoutes";
+import genreRouter from "./GenresRoutes";
+import moviesRouter from "./MoviesRoutes";
 
 const router = express.Router()
 

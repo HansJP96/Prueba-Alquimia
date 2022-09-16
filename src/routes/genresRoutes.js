@@ -1,9 +1,9 @@
 import express from "express";
-import { createNewGenre } from "../controller/genres/createGenres";
-import { deleteOneGenre } from "../controller/genres/deleteGenres";
-import { getGenreList, getOneGenre } from "../controller/genres/getGenres";
-import { updateOneGenre } from "../controller/genres/updateGenres";
-import { middleGenresValidator } from "../utils/validations/genres/middleGenresValidator";
+import { createNewGenre } from "../controller/genres/CreateGenres";
+import { deleteOneGenre } from "../controller/genres/DeleteGenres";
+import { getGenreList, getOneGenre } from "../controller/genres/GetGenres";
+import { updateOneGenre } from "../controller/genres/UpdateGenres";
+import { middleGenresValidator } from "../utils/validations/genres/MiddleGenresValidator";
 
 const genreRouter = express.Router()
 

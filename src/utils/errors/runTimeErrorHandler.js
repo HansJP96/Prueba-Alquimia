@@ -1,4 +1,4 @@
-import { typeError } from "./typeErrors"
+import { typeError } from "./TypeErrors"
 
 export const javascriptRuntimeErrorHandler = (error) => {
 

@@ -1,4 +1,4 @@
-import { typeError } from "../../errors/typeErrors"
+import { typeError } from "../../errors/TypeErrors"
 
 export const checkQualification = (req, res) => {
 

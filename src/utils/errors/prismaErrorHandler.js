@@ -1,16 +1,21 @@
 import { Prisma } from "@prisma/client"
-import { removeLineBreaks } from "../helpers/common/stringFormater"
-import { typeError } from "./typeErrors"
+import { removeLineBreaks } from "../helpers/common/StringFormater"
+import { typeError } from "./TypeErrors"
 
 export const prismaErrorHandler = (error) => {
+    const textError = JSON.stringify(error.message)
 
     if (error instanceof Prisma.PrismaClientValidationError) {
-        const errorTotalLength = JSON.stringify(error.message).length
-        const lastBracketFormat = JSON.stringify(error.message).lastIndexOf("}")
+        const errorTotalLength = textError.length
+        const lastBracketFormat = textError.lastIndexOf("}")
 
-        error.message = JSON.stringify(error.message)
-            .substring(lastBracketFormat + 5, errorTotalLength - 5)
-            .split(/\\n\\n|\\n/)
+        if (textError.includes("Got invalid value")) {
+            error.message = textError.match(/Argument [(a-z)(A-Z)_]+: Got invalid value/g)
+        } else {
+            error.message = textError
+                .substring(lastBracketFormat + 5, errorTotalLength - 5)
+                .split(/\\n\\n|\\n/)
+        }
 
         error.typeError = typeError.PRISMA_VALIDATION
 
@@ -19,7 +24,7 @@ export const prismaErrorHandler = (error) => {
         error.message = removeLineBreaks(error.message)
         error.typeError = typeError.PRISMA_CONNECTION
 
-    } else if (error instanceof Prisma.PrismaClientKnownRequestError){
+    } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
 
         error.message = removeLineBreaks(error.message)
         error.typeError = typeError.PRISMA_DATABASE

@@ -3,6 +3,7 @@ import { Pelicula as _Pelicula } from './pelicula'
 import { Genero as _Genero } from './genero'
 import { PersonajeEnPelicula as _PersonajeEnPelicula } from './personaje_en_pelicula'
 import { GeneroEnPelicula as _GeneroEnPelicula } from './genero_en_pelicula'
+import { Usuario as _Usuario } from './usuario'
 
 export namespace PrismaModel {
 	export class Personaje extends _Personaje {}
@@ -10,6 +11,7 @@ export namespace PrismaModel {
 	export class Genero extends _Genero {}
 	export class PersonajeEnPelicula extends _PersonajeEnPelicula {}
 	export class GeneroEnPelicula extends _GeneroEnPelicula {}
+	export class Usuario extends _Usuario {}
 
 	export const extraModels = [
 		Personaje,
@@ -17,5 +19,6 @@ export namespace PrismaModel {
 		Genero,
 		PersonajeEnPelicula,
 		GeneroEnPelicula,
+		Usuario,
 	]
 }

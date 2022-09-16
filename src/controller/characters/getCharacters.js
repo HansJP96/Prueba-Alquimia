@@ -1,13 +1,35 @@
 import { PrismaClient } from "@prisma/client"
-import { responseError } from "../../utils/errors/responseError"
+import { responseError } from "../../utils/errors/ResponseError"
 
 const prisma = new PrismaClient()
 
 export const getCharacterList = async (req, res) => {
     let characters = null
 
+    const name = req.query.name
+    const age = Number(req.query.age) || undefined
+    const movies = req.query.movies?.split(",").map((idMovie) => { return Number(idMovie) })
+
+    console.log(movies)
     try {
         characters = await prisma.personaje.findMany({
+            where: {
+                nombre: {
+                    contains: name
+                },
+                edad: {
+                    equals: age
+                },
+                peliculas: {
+                    some: {
+                        pelicula: {
+                            id: {
+                                in: movies
+                            }
+                        }
+                    }
+                }
+            },
             include: {
                 peliculas: {
                     select: {

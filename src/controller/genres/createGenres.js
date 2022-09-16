@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
-import { responseError } from "../../utils/errors/responseError"
-import { setDefaultImage } from "../../utils/helpers/common/imageSetter"
+import { responseError } from "../../utils/errors/ResponseError"
+import { setDefaultImage } from "../../utils/helpers/common/ImageSetter"
 
 const prisma = new PrismaClient()
 
