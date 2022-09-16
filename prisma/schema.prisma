@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 generator prismaClassGenerator {
@@ -18,12 +19,12 @@ datasource db {
 }
 
 model Personaje {
-  id       Int    @id @default(autoincrement())
-  nombre   String @unique @db.VarChar(100)
-  edad     Int    @db.Int
-  peso     Float  @db.Float
-  historia String @db.VarChar(600)
-  imagen   String @default("https://whetstonefire.org/wp-content/uploads/2020/06/image-not-available.jpg") @db.VarChar(500)
+  id        Int                   @id @default(autoincrement())
+  nombre    String                @unique @db.VarChar(100)
+  edad      Int                   @db.Int
+  peso      Float                 @db.Float
+  historia  String                @db.VarChar(600)
+  imagen    String                @default("https://whetstonefire.org/wp-content/uploads/2020/06/image-not-available.jpg") @db.VarChar(500)
   peliculas PersonajeEnPelicula[]
 }
 
@@ -60,4 +61,12 @@ model GeneroEnPelicula {
   idPelicula Int
 
   @@id([idGenero, idPelicula])
+}
+
+model Usuario {
+  email String @id @db.VarChar(100)
+  primer_nombre String @db.VarChar(30)
+  primer_apellido String @db.VarChar(30)
+  contrasena String @db.VarChar(256)
+  salt_usuario String @db.VarChar(40)
 }

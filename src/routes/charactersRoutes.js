@@ -1,9 +1,9 @@
 import express from "express";
-import { createNewCharacter } from "../controller/characters/createCharacters";
-import { deleteOneCharacter } from "../controller/characters/deleteCharacters";
-import { getCharacterList, getOneCharacter } from "../controller/characters/getCharacters";
-import { updateOneCharacter } from "../controller/characters/updateCharacters";
-import { middleCharactersValidator } from "../utils/validations/characters/middleCharactersValidator";
+import { createNewCharacter } from "../controller/characters/CreateCharacters";
+import { deleteOneCharacter } from "../controller/characters/DeleteCharacters";
+import { getCharacterList, getOneCharacter } from "../controller/characters/GetCharacters";
+import { updateOneCharacter } from "../controller/characters/UpdateCharacters";
+import { middleCharactersValidator } from "../utils/validations/characters/MiddleCharactersValidator";
 
 const characterRouter = express.Router()
 

@@ -1,5 +1,5 @@
-import { isNotEmptyBody } from "../common/reqBodyEmpty"
-import { validations } from "../common/validations"
+import { isNotEmptyBody } from "../common/ReqBodyEmpty"
+import { validations } from "../common/Validations"
 
 export const middleGenresValidator = (req, res, next) => {
     if (validations(

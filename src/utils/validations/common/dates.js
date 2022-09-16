@@ -1,5 +1,5 @@
-import { typeError } from "../../errors/typeErrors"
-import { stringToNumberDateValues } from "../../helpers/common/dateConverter"
+import { typeError } from "../../errors/TypeErrors"
+import { stringToNumberDateValues } from "../../helpers/common/DateConverter"
 
 export const checkDateLimits = (req, res) => {
     let result = false

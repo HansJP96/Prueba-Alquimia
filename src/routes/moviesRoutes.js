@@ -1,9 +1,9 @@
 import express from "express";
-import { createNewMovie } from "../controller/movies/createMovies";
-import { deleteOneMovie } from "../controller/movies/deleteMovies";
-import { getMoviesList, getOneMovie } from "../controller/movies/getMovies";
-import { updateOneMovie } from "../controller/movies/updateMovies";
-import { middleMoviesValidator } from "../utils/validations/movies/middleMoviesValidator";
+import { createNewMovie } from "../controller/movies/CreateMovies";
+import { deleteOneMovie } from "../controller/movies/DeleteMovies";
+import { getMoviesList, getOneMovie } from "../controller/movies/GetMovies";
+import { updateOneMovie } from "../controller/movies/UpdateMovies";
+import { middleMoviesValidator } from "../utils/validations/movies/MiddleMoviesValidator";
 
 const moviesRouter = express.Router()
 
