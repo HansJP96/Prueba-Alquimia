@@ -1,8 +1,8 @@
-import { typeError } from "../../errors/typeErrors"
+import { typeError } from "../../errors/TypeErrors"
 
-export const checkQualification = (req, res) => {
+export const checkQualification = (qualifcation, res) => {
 
-    if (req.body.calificacion < 1 || req.body.calificacion > 5) {
+    if (qualifcation < 1 || qualifcation > 5) {
         res.status(400).send(
             {
                 error:

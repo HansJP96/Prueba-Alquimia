@@ -1,0 +1,44 @@
+components:
+  schemas:
+    Personaje:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificador unico del personaje 
+        nombre:
+          type: string
+          description: Nombre parcial o completo del personaje
+        edad:
+          type: integer
+          description: Edad del personaje
+        peso:
+          type: number
+          description: Peso del personaje
+        historia:
+          type: string
+          description: Breve resumen del personaje
+          maxLength: 600
+        imagen:
+          type: string
+          description: Link de imagen representativa del personaje
+          maxLength: 500
+        peliculas:
+          type: array
+          description: Lista de peliculas en las que ha participado el personaje
+          items:
+            type: object
+            $ref: "#/components/schemas/Pelicula"
+      required:
+        - id
+        - nombre
+        - edad
+        - peso
+        - historia
+      example: 
+        id: 1
+        nombre: Will Smith
+        edad: 56
+        peso: 84
+        historia: Willard Carroll Smith II(born September 25, 1968), also known by his stage name The Fresh Prince, is an American actor, rapper, and producer. He began his career starring as a fictionalized version of himself on the NBC sitcom The Fresh Prince of Bel-Air (1990-1996)
+        imagen: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg

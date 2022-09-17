@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client"
-import { responseError } from "../../utils/errors/responseError"
+import { responseError } from "../../utils/errors/ResponseError"
 
 const prisma = new PrismaClient()
 
 export const deleteOneGenre = async (req, res) => {
 
-    const paramId = Number(req.params.id)
+    const paramId = parseInt(req.params.id)
 
     try {
         await prisma.genero.delete({

@@ -1,13 +1,13 @@
 import { PrismaClient } from "@prisma/client"
-import { createConnectFormat, deleteRelationFormat } from "../../utils/helpers/common/connectSchema"
-import { responseError } from "../../utils/errors/responseError"
+import { createConnectFormat, deleteRelationFormat } from "../../utils/helpers/common/ConnectSchema"
+import { responseError } from "../../utils/errors/ResponseError"
 
 const prisma = new PrismaClient()
 
 export const updateOneCharacter = async (req, res) => {
     let characterUpdated = null
 
-    const paramId = Number(req.params.id)
+    const paramId = parseInt(req.params.id)
     const movies = req.body.peliculas
 
     try {

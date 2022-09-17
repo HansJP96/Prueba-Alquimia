@@ -1,10 +1,10 @@
-import { typeError } from "../../errors/typeErrors"
-import { stringToNumberDateValues } from "../../helpers/common/dateConverter"
+import { typeError } from "../../errors/TypeErrors"
+import { stringToNumberDateValues } from "../../helpers/common/DateConverter"
 
-export const checkDateLimits = (req, res) => {
+export const checkDateLimits = (createdDate, res) => {
     let result = false
 
-    const { year, month, day } = stringToNumberDateValues(req.body.fecha_creacion)
+    const { year, month, day } = stringToNumberDateValues(createdDate)
 
     if (month > 11 || month < 0) {
         res.status(400).send(

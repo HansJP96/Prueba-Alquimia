@@ -1,0 +1,115 @@
+paths:
+  /genres:
+    get:
+      summary: Listado de generos existentes
+      tags: [Genero]
+      responses:
+        200:
+          description: Objeto json con las propiedades de los generos
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: "#/components/schemas/Genero"
+              example:
+                - id: 25
+                  nombre: Aventura
+                  imagen: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg/404px-TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg
+                  peliculas:
+                  - id: 8
+                    titulo: Avatar
+        500:
+          description: Error obteniendo el listado generos
+    post:
+      summary: Crea nuevo genero en la BD
+      tags: [Genero]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Genero"
+            example:
+              nombre: Ciencia Ficcion
+              imagen: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg
+      responses:
+        201:
+          description: Objeto json con las propiedades del genero creado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Genero"
+        400:
+          description: Valores de body no validos
+  /genres/{id}:
+    parameters:
+      - in: path
+        name: id
+        description: Id del genero
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Obtener genero con id especificado
+      tags: [Genero]
+      responses:
+        200:
+          description: Objeto json con las propiedades del genero creado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Genero"
+              example:
+                  id: 25
+                  nombre: Aventura
+                  imagen: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg/404px-TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg
+                  peliculas:
+                  - id: 8
+                    titulo: Avatar
+        500:
+          description: Error obteniendo genero
+    put:
+      summary: Modificar genero especificado
+      tags: [Genero]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Genero"
+            example:
+              nombre: Ciencia Ficcion
+              imagen: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg/404px-TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg
+      responses:
+        204:
+          description: Estado ok de la modificacion
+        400:
+          description: Valores de body no validos
+        500:
+          description: Error modificando genero
+    delete:
+      summary: Eliminar genero especificado
+      tags: [Genero]
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Objeto json validando eliminacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Ok:
+                    type: string
+                    description: Confirmacion de genero eliminado
+        500:
+          description: Error eliminando genero

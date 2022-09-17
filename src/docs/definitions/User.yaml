@@ -1,0 +1,31 @@
+components:
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        email:
+          type: string
+          description: User email
+          format: email
+        primer_nombre:
+          type: string
+          description: User first name
+        segundo_nombre:
+          type: string
+          description: User last name
+        contrasena:
+          type: string
+          description: User password
+          format: password
+          minLength: 4
+          maxLength: 30
+      required:
+        - email
+        - primer_nombre
+        - segundo_nombre
+        - contrasena
+      example: 
+        email: juanpablo@gmail.com
+        primer_nombre: Juan
+        segundo_nombre: Ortega
+        contrasena: qwertyuiop 
