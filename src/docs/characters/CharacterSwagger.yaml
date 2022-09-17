@@ -1,0 +1,175 @@
+paths:
+  /characters:
+    get:
+      summary: Listado de personajes existentes
+      tags: [Personaje]
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Busqueda por nombre de personje (no es case sensitive)
+        - in: query
+          name: age
+          schema:
+            type: integer
+          description: Filtro por edad de personajes
+        - in: query
+          name: movies
+          schema:
+            type: array
+          style: form
+          explode: false
+          description: Busqueda filtrada por ids de peliculas en las que participo
+      responses:
+        200:
+          description: Objeto json con las propiedades de los personajes
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: "#/components/schemas/Personaje"
+              example:
+                - id: 19
+                  nombre: Jennifer Lawrence
+                  edad: 32
+                  peso: 62
+                  historia: Jennifer Shrader Lawrence (born August 15, 1990) is an American actress. The world's highest-paid actress in 2015 and 2016, her films have grossed over $6 billion worldwide to date. She appeared in Time's 100 most influential people in the world list in 2013 and the Forbes Celebrity 100 list from 2013 to 2016
+                  imagen: https://en.wikipedia.org/wiki/File:Jennifer_Lawrence_in_2016.jpg
+                  peliculas:
+                    - id: 8
+                      titulo: The Hunger Games
+                      fecha_creacion: 2008-09-14
+                      calificacion: 5
+                      imagen: https://static.wikia.nocookie.net/thehungergames/images/b/b8/Hungergames_poster.jpg
+        500:
+          description: Error obteniendo el listado de personajes
+    post:
+      summary: Crea nuevo genero en la BD
+      tags: [Personaje]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Personaje"
+            example:
+              nombre: Jennifer Lawrence
+              edad: 32
+              peso: 62
+              historia: Jennifer Shrader Lawrence (born August 15, 1990) is an American actress. The world's highest-paid actress in 2015 and 2016, her films have grossed over $6 billion worldwide to date. She appeared in Time's 100 most influential people in the world list in 2013 and the Forbes Celebrity 100 list from 2013 to 2016
+              imagen: https://en.wikipedia.org/wiki/File:Jennifer_Lawrence_in_2016.jpg
+              peliculas: [4,12,31]
+      responses:
+        201:
+          description: Objeto json con las propiedades del genero creado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Personaje"
+              example:
+                  id: 19
+                  nombre: Jennifer Lawrence
+                  edad: 32
+                  peso: 62
+                  historia: Jennifer Shrader Lawrence (born August 15, 1990) is an American actress. The world's highest-paid actress in 2015 and 2016, her films have grossed over $6 billion worldwide to date. She appeared in Time's 100 most influential people in the world list in 2013 and the Forbes Celebrity 100 list from 2013 to 2016
+                  imagen: https://en.wikipedia.org/wiki/File:Jennifer_Lawrence_in_2016.jpg
+                  peliculas:
+                    - id: 8
+                      titulo: The Hunger Games
+                      fecha_creacion: 2008-09-14
+                      calificacion: 5
+                      imagen: https://static.wikia.nocookie.net/thehungergames/images/b/b8/Hungergames_poster.jpg
+        400:
+          description: Valores de body no validos
+  /characters/{id}:
+    parameters:
+    - name: id
+      in: path
+      description: Id del personaje
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Obtener personaje especificado
+      tags: [Personaje]
+      responses:
+        200:
+          description: Objeto json con las propiedades del personaje
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: "#/components/schemas/Personaje"
+            example:
+                  id: 19
+                  nombre: Jennifer Lawrence
+                  edad: 32
+                  peso: 62
+                  historia: Jennifer Shrader Lawrence (born August 15, 1990) is an American actress. The world's highest-paid actress in 2015 and 2016, her films have grossed over $6 billion worldwide to date. She appeared in Time's 100 most influential people in the world list in 2013 and the Forbes Celebrity 100 list from 2013 to 2016
+                  imagen: https://en.wikipedia.org/wiki/File:Jennifer_Lawrence_in_2016.jpg
+                  peliculas:
+                    - id: 8
+                      titulo: The Hunger Games
+                      fecha_creacion: 2008-09-14
+                      calificacion: 5
+                      imagen: https://static.wikia.nocookie.net/thehungergames/images/b/b8/Hungergames_poster.jpg
+        500:
+          description: Error obteniendo el personaje
+    put:
+      summary: Modifica la informacion de un perosnaje
+      tags: [Personaje]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Personaje"
+            example:
+              nombre: Jennifer Lawrence
+              edad: 32
+              peso: 62
+              historia: Jennifer Shrader Lawrence (born August 15, 1990) is an American actress. The world's highest-paid actress in 2015 and 2016, her films have grossed over $6 billion worldwide to date. She appeared in Time's 100 most influential people in the world list in 2013 and the Forbes Celebrity 100 list from 2013 to 2016
+              imagen: https://en.wikipedia.org/wiki/File:Jennifer_Lawrence_in_2016.jpg
+              peliculas:
+                conectar: [25,68]
+                desconectar: [4,12]
+      responses:
+        204:
+          description: Estado ok de la modificacion
+        400:
+          description: Valores de body no validos
+        500:
+          description: Error modificando personaje
+    delete:
+      summary: Eliminar personaje especificado
+      tags: [Personaje]
+      security:
+        - bearerAuth: []
+      parameter:
+        - name: id
+          in: path
+          description: Id del personaje
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Objeto json validando eliminacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Ok:
+                    type: string
+                    description: Confirmacion de personaje eliminado
+        500:
+          description: Error eliminando personaje

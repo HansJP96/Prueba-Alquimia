@@ -1,6 +1,4 @@
-export const validateEmail = (req, res) => {
-
-    const email = req.body.email
+export const validateEmail = (email, res) => {
 
     const result = String(email)
         .toLowerCase()
@@ -21,8 +19,7 @@ export const validateEmail = (req, res) => {
     return true
 }
 
-export const checkPasswordLength = (req, res) => {
-    const password = req.body.contrasena
+export const checkPasswordLength = (password, res) => {
 
     if (password.length < 4 || password.length > 30) {
         res.status(400).send(

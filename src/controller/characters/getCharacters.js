@@ -7,10 +7,9 @@ export const getCharacterList = async (req, res) => {
     let characters = null
 
     const name = req.query.name
-    const age = Number(req.query.age) || undefined
-    const movies = req.query.movies?.split(",").map((idMovie) => { return Number(idMovie) })
+    const age = parseInt(req.query.age) || undefined
+    const movies = req.query.movies?.split(",").map((idMovie) => { return parseInt(idMovie) })
 
-    console.log(movies)
     try {
         characters = await prisma.personaje.findMany({
             where: {
@@ -47,7 +46,7 @@ export const getCharacterList = async (req, res) => {
 export const getOneCharacter = async (req, res) => {
     let character = null
 
-    const paramId = Number(req.params.id)
+    const paramId = parseInt(req.params.id)
 
     try {
         character = await prisma.personaje.findUnique({

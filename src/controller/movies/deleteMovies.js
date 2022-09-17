@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 export const deleteOneMovie = async (req, res) => {
 
-    const paramId = Number(req.params.id)
+    const paramId = parseInt(req.params.id)
 
     try {
         await prisma.pelicula.delete({

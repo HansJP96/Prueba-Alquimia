@@ -1,0 +1,46 @@
+components:
+  schemas:
+    Pelicula:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificador unico para pelicula
+        titulo:
+          type: string
+          description: Nombre de la pelicula
+        fecha_creacion:
+          type: date
+          description: Fecha de estreno
+        calificacion:
+          type: integer
+          description: Calificacion promedio de usuarios
+          minimum: 1
+          maximum: 5
+        imagen:
+          type: string
+          description: Link de imagen representativa de la pelicula
+          maxLength: 500
+        personajes:
+          type: array
+          description: Lista de personajes que participan en la pelicula
+          items:
+            type: object
+            $ref: "#/components/schemas/Personaje"
+        generos:
+          type: array
+          description: Lista de generos en los que se clasifica la pelicula
+          items:
+            type: object
+            $ref: "#/components/schemas/Genero"
+      required:
+        - id
+        - titulo
+        - fecha_creacion
+        - calificacion
+      example: 
+        id: 8
+        titulo: Avatar
+        fecha_creacion: 2011-08-23
+        calificacion: 4
+        imagen: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg

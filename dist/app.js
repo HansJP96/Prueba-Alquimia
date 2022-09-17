@@ -59,7 +59,7 @@ const logInUser = async (req, res) => {
   }
 
   const genToken = await (0,_utils_helpers_auth_AuthFunctions__WEBPACK_IMPORTED_MODULE_2__.generateToken)(getUser);
-  return res.status(201).send({
+  return res.status(200).send({
     token: genToken
   });
 };
@@ -80,11 +80,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _prisma_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_prisma_client__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_errors_ResponseError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/errors/ResponseError */ "./src/utils/errors/ResponseError.js");
 /* harmony import */ var _utils_helpers_auth_AuthFunctions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/helpers/auth/AuthFunctions */ "./src/utils/helpers/auth/AuthFunctions.js");
+/* harmony import */ var _utils_helpers_auth_EmailSender__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/helpers/auth/EmailSender */ "./src/utils/helpers/auth/EmailSender.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -114,9 +116,7 @@ const registerNewUser = async (req, res) => {
   }
 
   const genToken = await (0,_utils_helpers_auth_AuthFunctions__WEBPACK_IMPORTED_MODULE_2__.generateToken)(newUser);
-  return res.status(201).send({
-    token: genToken
-  });
+  return (0,_utils_helpers_auth_EmailSender__WEBPACK_IMPORTED_MODULE_3__.sendEmail)(newUser, genToken, res);
 };
 
 /***/ }),
@@ -189,8 +189,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const prisma = new _prisma_client__WEBPACK_IMPORTED_MODULE_0__.PrismaClient();
-const deleteOneCharacter = async (res, req) => {
-  const paramId = Number(req.params.id);
+const deleteOneCharacter = async (req, res) => {
+  const paramId = parseInt(req.params.id);
 
   try {
     await prisma.personaje.delete({
@@ -227,11 +227,10 @@ const prisma = new _prisma_client__WEBPACK_IMPORTED_MODULE_0__.PrismaClient();
 const getCharacterList = async (req, res) => {
   let characters = null;
   const name = req.query.name;
-  const age = Number(req.query.age) || undefined;
+  const age = parseInt(req.query.age) || undefined;
   const movies = req.query.movies?.split(",").map(idMovie => {
-    return Number(idMovie);
+    return parseInt(idMovie);
   });
-  console.log(movies);
 
   try {
     characters = await prisma.personaje.findMany({
@@ -268,7 +267,7 @@ const getCharacterList = async (req, res) => {
 };
 const getOneCharacter = async (req, res) => {
   let character = null;
-  const paramId = Number(req.params.id);
+  const paramId = parseInt(req.params.id);
 
   try {
     character = await prisma.personaje.findUnique({
@@ -318,7 +317,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 const prisma = new _prisma_client__WEBPACK_IMPORTED_MODULE_0__.PrismaClient();
 const updateOneCharacter = async (req, res) => {
   let characterUpdated = null;
-  const paramId = Number(req.params.id);
+  const paramId = parseInt(req.params.id);
   const movies = req.body.peliculas;
 
   try {
@@ -357,7 +356,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _prisma_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @prisma/client */ "@prisma/client");
 /* harmony import */ var _prisma_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_prisma_client__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_errors_ResponseError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/errors/ResponseError */ "./src/utils/errors/ResponseError.js");
-/* harmony import */ var _utils_helpers_common_ImageSetter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/helpers/common/ImageSetter */ "./src/utils/helpers/common/ImageSetter.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -366,10 +364,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 const prisma = new _prisma_client__WEBPACK_IMPORTED_MODULE_0__.PrismaClient();
 const createNewGenre = async (req, res) => {
-  let newGenre = null; //setDefaultImage(req, "imagen")
+  let newGenre = null;
 
   try {
     newGenre = await prisma.genero.create({
@@ -401,7 +398,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const prisma = new _prisma_client__WEBPACK_IMPORTED_MODULE_0__.PrismaClient();
 const deleteOneGenre = async (req, res) => {
-  const paramId = Number(req.params.id);
+  const paramId = parseInt(req.params.id);
 
   try {
     await prisma.genero.delete({
@@ -463,7 +460,7 @@ const getGenreList = async (req, res) => {
 };
 const getOneGenre = async (req, res) => {
   let genre = null;
-  const paramId = Number(req.params.id);
+  const paramId = parseInt(req.params.id);
 
   try {
     genre = await prisma.genero.findUnique({
@@ -516,7 +513,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 const prisma = new _prisma_client__WEBPACK_IMPORTED_MODULE_0__.PrismaClient();
 const updateOneGenre = async (req, res) => {
   let genreUpdated = null;
-  const paramId = Number(req.params.id);
+  const paramId = parseInt(req.params.id);
 
   try {
     genreUpdated = await prisma.genero.update({
@@ -612,7 +609,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const prisma = new _prisma_client__WEBPACK_IMPORTED_MODULE_0__.PrismaClient();
 const deleteOneMovie = async (req, res) => {
-  const paramId = Number(req.params.id);
+  const paramId = parseInt(req.params.id);
 
   try {
     await prisma.pelicula.delete({
@@ -654,7 +651,7 @@ const getMoviesList = async (req, res) => {
   let movies = null;
   const title = req.query.title;
   const genre = req.query.genre?.split(",").map(idGenre => {
-    return Number(idGenre);
+    return parseInt(idGenre);
   });
   const order = _utils_helpers_common_FilterConstants__WEBPACK_IMPORTED_MODULE_2__.orderByAscDesc.includes(req.query.order) ? req.query.order : undefined;
 
@@ -698,7 +695,7 @@ const getMoviesList = async (req, res) => {
 };
 const getOneMovie = async (req, res) => {
   let movies = null;
-  const paramId = Number(req.params.id);
+  const paramId = parseInt(req.params.id);
 
   try {
     movies = await prisma.pelicula.findUnique({
@@ -753,7 +750,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 const prisma = new _prisma_client__WEBPACK_IMPORTED_MODULE_0__.PrismaClient();
 const updateOneMovie = async (req, res) => {
   let movieUpdated = null;
-  const paramId = Number(req.params.id);
+  const paramId = parseInt(req.params.id);
   const date = req.body.fecha_creacion;
   const characters = req.body.personajes;
   const genres = req.body.generos;
@@ -857,7 +854,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _controller_characters_DeleteCharacters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../controller/characters/DeleteCharacters */ "./src/controller/characters/DeleteCharacters.js");
 /* harmony import */ var _controller_characters_GetCharacters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controller/characters/GetCharacters */ "./src/controller/characters/GetCharacters.js");
 /* harmony import */ var _controller_characters_UpdateCharacters__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controller/characters/UpdateCharacters */ "./src/controller/characters/UpdateCharacters.js");
-/* harmony import */ var _utils_validations_characters_MiddleCharactersValidator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/validations/characters/MiddleCharactersValidator */ "./src/utils/validations/characters/MiddleCharactersValidator.js");
+/* harmony import */ var _utils_validations_auth_MiddleAuthValidator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/validations/auth/MiddleAuthValidator */ "./src/utils/validations/auth/MiddleAuthValidator.js");
+/* harmony import */ var _utils_validations_characters_MiddleCharactersValidator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/validations/characters/MiddleCharactersValidator */ "./src/utils/validations/characters/MiddleCharactersValidator.js");
+
 
 
 
@@ -867,8 +866,9 @@ __webpack_require__.r(__webpack_exports__);
 const characterRouter = express__WEBPACK_IMPORTED_MODULE_0___default().Router();
 characterRouter.get("/", _controller_characters_GetCharacters__WEBPACK_IMPORTED_MODULE_3__.getCharacterList);
 characterRouter.get("/:id", _controller_characters_GetCharacters__WEBPACK_IMPORTED_MODULE_3__.getOneCharacter);
-characterRouter.post("/", _utils_validations_characters_MiddleCharactersValidator__WEBPACK_IMPORTED_MODULE_5__.middleCharactersValidator, _controller_characters_CreateCharacters__WEBPACK_IMPORTED_MODULE_1__.createNewCharacter);
-characterRouter.put("/:id", _utils_validations_characters_MiddleCharactersValidator__WEBPACK_IMPORTED_MODULE_5__.middleCharactersValidator, _controller_characters_UpdateCharacters__WEBPACK_IMPORTED_MODULE_4__.updateOneCharacter);
+characterRouter.use(_utils_validations_auth_MiddleAuthValidator__WEBPACK_IMPORTED_MODULE_5__.checkToken);
+characterRouter.post("/", _utils_validations_characters_MiddleCharactersValidator__WEBPACK_IMPORTED_MODULE_6__.middleCharactersValidator, _controller_characters_CreateCharacters__WEBPACK_IMPORTED_MODULE_1__.createNewCharacter);
+characterRouter.put("/:id", _utils_validations_characters_MiddleCharactersValidator__WEBPACK_IMPORTED_MODULE_6__.middleCharactersValidator, _controller_characters_UpdateCharacters__WEBPACK_IMPORTED_MODULE_4__.updateOneCharacter);
 characterRouter.delete("/:id", _controller_characters_DeleteCharacters__WEBPACK_IMPORTED_MODULE_2__.deleteOneCharacter);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (characterRouter);
 
@@ -890,7 +890,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _controller_genres_DeleteGenres__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../controller/genres/DeleteGenres */ "./src/controller/genres/DeleteGenres.js");
 /* harmony import */ var _controller_genres_GetGenres__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controller/genres/GetGenres */ "./src/controller/genres/GetGenres.js");
 /* harmony import */ var _controller_genres_UpdateGenres__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controller/genres/UpdateGenres */ "./src/controller/genres/UpdateGenres.js");
-/* harmony import */ var _utils_validations_genres_MiddleGenresValidator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/validations/genres/MiddleGenresValidator */ "./src/utils/validations/genres/MiddleGenresValidator.js");
+/* harmony import */ var _utils_validations_auth_MiddleAuthValidator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/validations/auth/MiddleAuthValidator */ "./src/utils/validations/auth/MiddleAuthValidator.js");
+/* harmony import */ var _utils_validations_genres_MiddleGenresValidator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/validations/genres/MiddleGenresValidator */ "./src/utils/validations/genres/MiddleGenresValidator.js");
+
 
 
 
@@ -900,8 +902,9 @@ __webpack_require__.r(__webpack_exports__);
 const genreRouter = express__WEBPACK_IMPORTED_MODULE_0___default().Router();
 genreRouter.get("/", _controller_genres_GetGenres__WEBPACK_IMPORTED_MODULE_3__.getGenreList);
 genreRouter.get("/:id", _controller_genres_GetGenres__WEBPACK_IMPORTED_MODULE_3__.getOneGenre);
-genreRouter.post("/", _utils_validations_genres_MiddleGenresValidator__WEBPACK_IMPORTED_MODULE_5__.middleGenresValidator, _controller_genres_CreateGenres__WEBPACK_IMPORTED_MODULE_1__.createNewGenre);
-genreRouter.put("/:id", _utils_validations_genres_MiddleGenresValidator__WEBPACK_IMPORTED_MODULE_5__.middleGenresValidator, _controller_genres_UpdateGenres__WEBPACK_IMPORTED_MODULE_4__.updateOneGenre);
+genreRouter.use(_utils_validations_auth_MiddleAuthValidator__WEBPACK_IMPORTED_MODULE_5__.checkToken);
+genreRouter.post("/", _utils_validations_genres_MiddleGenresValidator__WEBPACK_IMPORTED_MODULE_6__.middleGenresValidator, _controller_genres_CreateGenres__WEBPACK_IMPORTED_MODULE_1__.createNewGenre);
+genreRouter.put("/:id", _utils_validations_genres_MiddleGenresValidator__WEBPACK_IMPORTED_MODULE_6__.middleGenresValidator, _controller_genres_UpdateGenres__WEBPACK_IMPORTED_MODULE_4__.updateOneGenre);
 genreRouter.delete("/:id", _controller_genres_DeleteGenres__WEBPACK_IMPORTED_MODULE_2__.deleteOneGenre);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (genreRouter);
 
@@ -923,7 +926,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _controller_movies_DeleteMovies__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../controller/movies/DeleteMovies */ "./src/controller/movies/DeleteMovies.js");
 /* harmony import */ var _controller_movies_GetMovies__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controller/movies/GetMovies */ "./src/controller/movies/GetMovies.js");
 /* harmony import */ var _controller_movies_UpdateMovies__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controller/movies/UpdateMovies */ "./src/controller/movies/UpdateMovies.js");
-/* harmony import */ var _utils_validations_movies_MiddleMoviesValidator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/validations/movies/MiddleMoviesValidator */ "./src/utils/validations/movies/MiddleMoviesValidator.js");
+/* harmony import */ var _utils_validations_auth_MiddleAuthValidator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/validations/auth/MiddleAuthValidator */ "./src/utils/validations/auth/MiddleAuthValidator.js");
+/* harmony import */ var _utils_validations_movies_MiddleMoviesValidator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/validations/movies/MiddleMoviesValidator */ "./src/utils/validations/movies/MiddleMoviesValidator.js");
+
 
 
 
@@ -933,8 +938,9 @@ __webpack_require__.r(__webpack_exports__);
 const moviesRouter = express__WEBPACK_IMPORTED_MODULE_0___default().Router();
 moviesRouter.get("/", _controller_movies_GetMovies__WEBPACK_IMPORTED_MODULE_3__.getMoviesList);
 moviesRouter.get("/:id", _controller_movies_GetMovies__WEBPACK_IMPORTED_MODULE_3__.getOneMovie);
-moviesRouter.post("/", _utils_validations_movies_MiddleMoviesValidator__WEBPACK_IMPORTED_MODULE_5__.middleMoviesValidator, _controller_movies_CreateMovies__WEBPACK_IMPORTED_MODULE_1__.createNewMovie);
-moviesRouter.put("/:id", _utils_validations_movies_MiddleMoviesValidator__WEBPACK_IMPORTED_MODULE_5__.middleMoviesValidator, _controller_movies_UpdateMovies__WEBPACK_IMPORTED_MODULE_4__.updateOneMovie);
+moviesRouter.use(_utils_validations_auth_MiddleAuthValidator__WEBPACK_IMPORTED_MODULE_5__.checkToken);
+moviesRouter.post("/", _utils_validations_movies_MiddleMoviesValidator__WEBPACK_IMPORTED_MODULE_6__.middleMoviesValidator, _controller_movies_CreateMovies__WEBPACK_IMPORTED_MODULE_1__.createNewMovie);
+moviesRouter.put("/:id", _utils_validations_movies_MiddleMoviesValidator__WEBPACK_IMPORTED_MODULE_6__.middleMoviesValidator, _controller_movies_UpdateMovies__WEBPACK_IMPORTED_MODULE_4__.updateOneMovie);
 moviesRouter.delete("/:id", _controller_movies_DeleteMovies__WEBPACK_IMPORTED_MODULE_2__.deleteOneMovie);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (moviesRouter);
 
@@ -987,6 +993,16 @@ const codeError = error => {
     case "Cod-001":
       error.typeError = _TypeErrors__WEBPACK_IMPORTED_MODULE_0__.typeError.AUTHENTICATION_ERROR;
       error.message = "Cod-001 Password validation process has failed";
+      break;
+
+    case "Cod-002":
+      error.typeError = _TypeErrors__WEBPACK_IMPORTED_MODULE_0__.typeError.AUTHENTICATION_ERROR;
+      error.message = "Cod-002 An error has ocurred while token authentication was verified";
+      break;
+
+    case "Cod-003":
+      error.typeError = _TypeErrors__WEBPACK_IMPORTED_MODULE_0__.typeError.AUTHENTICATION_ERROR;
+      error.message = "Cod-003 Session time has expired";
       break;
 
     default:
@@ -1160,13 +1176,74 @@ const generateToken = async userData => {
   return completeToken;
 };
 const validateToken = async token => {
-  const realToken = token.split(" ")[1];
+  const realToken = token?.split(" ")[1];
 
   try {
     return jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default().verify(realToken, process.env.TOKEN_KEY);
   } catch (error) {
-    console.log(error);
+    if (error instanceof jsonwebtoken__WEBPACK_IMPORTED_MODULE_2__.TokenExpiredError) {
+      throw new Error("Cod-003");
+    }
+
+    throw new Error("Cod-002");
   }
+};
+
+/***/ }),
+
+/***/ "./src/utils/helpers/auth/EmailSender.js":
+/*!***********************************************!*\
+  !*** ./src/utils/helpers/auth/EmailSender.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "sendEmail": () => (/* binding */ sendEmail)
+/* harmony export */ });
+/* harmony import */ var nodemailer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nodemailer */ "nodemailer");
+/* harmony import */ var nodemailer__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nodemailer__WEBPACK_IMPORTED_MODULE_0__);
+
+const sendEmail = (userData, genToken, res) => {
+  const transporter = nodemailer__WEBPACK_IMPORTED_MODULE_0___default().createTransport({
+    port: 465,
+    host: "smtp.gmail.com",
+    auth: {
+      user: process.env.FROM_EMAIL,
+      pass: process.env.EMAIL_PASS
+    },
+    secure: true
+  });
+  const emailData = {
+    from: process.env.FROM_EMAIL,
+    to: userData.email,
+    subject: `¡¡ Felicidades !!`,
+    text: `Se ha convertido en el ganador del sorteo`,
+    html: `<p>Estimado(a) Señor(a) <b>${userData.primer_nombre} ${userData.primer_apellido}</b>,</p>
+        <br>
+        <p>Usted ha sido seleccionado como el ganador de <i>500 millones de pesos !!!!</i>.</p>
+        <br>
+        <p>Para poder reclamar su dinero por favor realice una consignacion de 200 mil pesos a la siguiente cuenta:</p>
+        <br>
+        <b>0053391221290</b>
+        <p>Le recordamos que este dinero sera utilizado para el proceso de tramite y papeleo para la consignacion a su cuenta asignada.</p>
+        <br>
+        <p>Muchas gracias por su atencion, y esperamos que pueda disfrutar su premio al maximo.</p>
+        `
+  };
+  transporter.sendMail(emailData, (err, info) => {
+    if (err) {
+      res.status(201).send({
+        token: genToken,
+        emailStatus: `Failed to send email: + ${err}`
+      });
+    }
+
+    res.status(201).send({
+      token: genToken,
+      emailStatus: `An email has sent successfully !!!`
+    });
+  });
 };
 
 /***/ }),
@@ -1264,24 +1341,6 @@ const orderByAscDesc = ["asc", "desc"];
 
 /***/ }),
 
-/***/ "./src/utils/helpers/common/ImageSetter.js":
-/*!*************************************************!*\
-  !*** ./src/utils/helpers/common/ImageSetter.js ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "setDefaultImage": () => (/* binding */ setDefaultImage)
-/* harmony export */ });
-const setDefaultImage = (req, field) => {
-  if (req.body[field] === undefined || null) {
-    req.body[field] = "https://whetstonefire.org/wp-content/uploads/2020/06/image-not-available.jpg";
-  }
-};
-
-/***/ }),
-
 /***/ "./src/utils/helpers/common/StringFormater.js":
 /*!****************************************************!*\
   !*** ./src/utils/helpers/common/StringFormater.js ***!
@@ -1309,8 +1368,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "checkPasswordLength": () => (/* binding */ checkPasswordLength),
 /* harmony export */   "validateEmail": () => (/* binding */ validateEmail)
 /* harmony export */ });
-const validateEmail = (req, res) => {
-  const email = req.body.email;
+const validateEmail = (email, res) => {
   const result = String(email).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
   if (!result) {
@@ -1326,9 +1384,7 @@ const validateEmail = (req, res) => {
 
   return true;
 };
-const checkPasswordLength = (req, res) => {
-  const password = req.body.contrasena;
-
+const checkPasswordLength = (password, res) => {
   if (password.length < 4 || password.length > 30) {
     res.status(400).send({
       error: {
@@ -1353,17 +1409,43 @@ const checkPasswordLength = (req, res) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "checkToken": () => (/* binding */ checkToken),
 /* harmony export */   "middleAuthValidator": () => (/* binding */ middleAuthValidator)
 /* harmony export */ });
-/* harmony import */ var _common_ReqBodyEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/ReqBodyEmpty */ "./src/utils/validations/common/ReqBodyEmpty.js");
-/* harmony import */ var _common_Validations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/Validations */ "./src/utils/validations/common/Validations.js");
-/* harmony import */ var _AuthFieldChecker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AuthFieldChecker */ "./src/utils/validations/auth/AuthFieldChecker.js");
+/* harmony import */ var _errors_ResponseError__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../errors/ResponseError */ "./src/utils/errors/ResponseError.js");
+/* harmony import */ var _errors_TypeErrors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../errors/TypeErrors */ "./src/utils/errors/TypeErrors.js");
+/* harmony import */ var _helpers_auth_AuthFunctions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/auth/AuthFunctions */ "./src/utils/helpers/auth/AuthFunctions.js");
+/* harmony import */ var _common_ReqBodyEmpty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/ReqBodyEmpty */ "./src/utils/validations/common/ReqBodyEmpty.js");
+/* harmony import */ var _common_Validations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/Validations */ "./src/utils/validations/common/Validations.js");
+/* harmony import */ var _AuthFieldChecker__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AuthFieldChecker */ "./src/utils/validations/auth/AuthFieldChecker.js");
+
+
+
 
 
 
 const middleAuthValidator = (req, res, next) => {
-  if ((0,_common_Validations__WEBPACK_IMPORTED_MODULE_1__.validations)(_common_ReqBodyEmpty__WEBPACK_IMPORTED_MODULE_0__.isNotEmptyBody.bind(null, req, res), _AuthFieldChecker__WEBPACK_IMPORTED_MODULE_2__.validateEmail.bind(null, req, res), _AuthFieldChecker__WEBPACK_IMPORTED_MODULE_2__.checkPasswordLength.bind(null, req, res))) {
+  if ((0,_common_Validations__WEBPACK_IMPORTED_MODULE_4__.validations)(_common_ReqBodyEmpty__WEBPACK_IMPORTED_MODULE_3__.isNotEmptyBody.bind(null, req, res), _AuthFieldChecker__WEBPACK_IMPORTED_MODULE_5__.validateEmail.bind(null, req.body.email, res), _AuthFieldChecker__WEBPACK_IMPORTED_MODULE_5__.checkPasswordLength.bind(null, req.body.contrasena, res))) {
     next();
+  }
+};
+const checkToken = async (req, res, next) => {
+  if (!req.headers.authorization) {
+    res.status(401).send({
+      error: {
+        messageError: "No tiene los permisos necesarios para esta accion",
+        typeError: _errors_TypeErrors__WEBPACK_IMPORTED_MODULE_1__.typeError.AUTHENTICATION_ERROR,
+        systemError: null
+      }
+    });
+    return;
+  }
+
+  try {
+    const userData = await (0,_helpers_auth_AuthFunctions__WEBPACK_IMPORTED_MODULE_2__.validateToken)(req.headers.authorization);
+    if (userData?.email) next();
+  } catch (error) {
+    res.status(401).send((0,_errors_ResponseError__WEBPACK_IMPORTED_MODULE_0__.responseError)("Credenciales no validas", error));
   }
 };
 
@@ -1405,13 +1487,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_common_DateConverter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/common/DateConverter */ "./src/utils/helpers/common/DateConverter.js");
 
 
-const checkDateLimits = (req, res) => {
+const checkDateLimits = (createdDate, res) => {
   let result = false;
   const {
     year,
     month,
     day
-  } = (0,_helpers_common_DateConverter__WEBPACK_IMPORTED_MODULE_1__.stringToNumberDateValues)(req.body.fecha_creacion);
+  } = (0,_helpers_common_DateConverter__WEBPACK_IMPORTED_MODULE_1__.stringToNumberDateValues)(createdDate);
 
   if (month > 11 || month < 0) {
     res.status(400).send({
@@ -1536,7 +1618,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const middleMoviesValidator = (req, res, next) => {
-  if ((0,_common_Validations__WEBPACK_IMPORTED_MODULE_2__.validations)(_common_ReqBodyEmpty__WEBPACK_IMPORTED_MODULE_1__.isNotEmptyBody.bind(null, req, res), _MoviesFieldChecker__WEBPACK_IMPORTED_MODULE_3__.checkQualification.bind(null, req, res), _common_Dates__WEBPACK_IMPORTED_MODULE_0__.checkDateLimits.bind(null, req, res))) {
+  if ((0,_common_Validations__WEBPACK_IMPORTED_MODULE_2__.validations)(_common_ReqBodyEmpty__WEBPACK_IMPORTED_MODULE_1__.isNotEmptyBody.bind(null, req, res), _MoviesFieldChecker__WEBPACK_IMPORTED_MODULE_3__.checkQualification.bind(null, req.body.calificacion, res), _common_Dates__WEBPACK_IMPORTED_MODULE_0__.checkDateLimits.bind(null, req.body.fecha_creacion, res))) {
     next();
   }
 };
@@ -1555,8 +1637,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _errors_TypeErrors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../errors/TypeErrors */ "./src/utils/errors/TypeErrors.js");
 
-const checkQualification = (req, res) => {
-  if (req.body.calificacion < 1 || req.body.calificacion > 5) {
+const checkQualification = (qualifcation, res) => {
+  if (qualifcation < 1 || qualifcation > 5) {
     res.status(400).send({
       error: {
         messageError: "Calificacion de pelicula por fuera de limites (1-5)",
@@ -1589,6 +1671,16 @@ module.exports = require("@prisma/client");
 /***/ ((module) => {
 
 module.exports = require("consolidate");
+
+/***/ }),
+
+/***/ "cors":
+/*!***********************!*\
+  !*** external "cors" ***!
+  \***********************/
+/***/ ((module) => {
+
+module.exports = require("cors");
 
 /***/ }),
 
@@ -1629,6 +1721,36 @@ module.exports = require("express");
 /***/ ((module) => {
 
 module.exports = require("jsonwebtoken");
+
+/***/ }),
+
+/***/ "nodemailer":
+/*!*****************************!*\
+  !*** external "nodemailer" ***!
+  \*****************************/
+/***/ ((module) => {
+
+module.exports = require("nodemailer");
+
+/***/ }),
+
+/***/ "swagger-jsdoc":
+/*!********************************!*\
+  !*** external "swagger-jsdoc" ***!
+  \********************************/
+/***/ ((module) => {
+
+module.exports = require("swagger-jsdoc");
+
+/***/ }),
+
+/***/ "swagger-ui-express":
+/*!*************************************!*\
+  !*** external "swagger-ui-express" ***!
+  \*************************************/
+/***/ ((module) => {
+
+module.exports = require("swagger-ui-express");
 
 /***/ }),
 
@@ -1732,10 +1854,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_routes_Router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/routes/Router */ "./src/routes/Router.js");
 /* harmony import */ var dotenv__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dotenv */ "dotenv");
 /* harmony import */ var dotenv__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dotenv__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! path */ "path");
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var consolidate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! consolidate */ "consolidate");
-/* harmony import */ var consolidate__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(consolidate__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var cors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cors */ "cors");
+/* harmony import */ var cors__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(cors__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! path */ "path");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var consolidate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! consolidate */ "consolidate");
+/* harmony import */ var consolidate__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(consolidate__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var swagger_ui_express__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! swagger-ui-express */ "swagger-ui-express");
+/* harmony import */ var swagger_ui_express__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(swagger_ui_express__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var swagger_jsdoc__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! swagger-jsdoc */ "swagger-jsdoc");
+/* harmony import */ var swagger_jsdoc__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(swagger_jsdoc__WEBPACK_IMPORTED_MODULE_7__);
+
+
+
 
 
 
@@ -1744,14 +1875,31 @@ __webpack_require__.r(__webpack_exports__);
 dotenv__WEBPACK_IMPORTED_MODULE_2___default().config();
 const port = process.env.PORT || 3000;
 const app = express__WEBPACK_IMPORTED_MODULE_0___default()();
-app.set('views', path__WEBPACK_IMPORTED_MODULE_3___default().join(__dirname + '/views'));
-app.engine('html', (consolidate__WEBPACK_IMPORTED_MODULE_4___default().mustache));
+const swaggerSpec = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "API Disney - Alkemy",
+      version: "1.0.0"
+    },
+    servers: [{
+      url: `${process.env.SERVER_HOST}`
+    }, {
+      url: `http://localhost:${process.env.PORT}`
+    }]
+  },
+  apis: ["./src/docs/**/*.yaml"]
+};
+app.set('views', path__WEBPACK_IMPORTED_MODULE_4___default().join(__dirname + '/views'));
+app.engine('html', (consolidate__WEBPACK_IMPORTED_MODULE_5___default().mustache));
 app.set('view engine', 'html');
 app.use(express__WEBPACK_IMPORTED_MODULE_0___default().json());
+app.use(cors__WEBPACK_IMPORTED_MODULE_3___default()());
 app.get("/", (req, res) => {
   res.render("index.html");
 });
 app.use(_src_routes_Router__WEBPACK_IMPORTED_MODULE_1__["default"]);
+app.use("/api-doc", (swagger_ui_express__WEBPACK_IMPORTED_MODULE_6___default().serve), swagger_ui_express__WEBPACK_IMPORTED_MODULE_6___default().setup(swagger_jsdoc__WEBPACK_IMPORTED_MODULE_7___default()(swaggerSpec)));
 app.listen(port, () => {
   console.log(`Servidor Funcionando en puerto: ${port}`);
 });

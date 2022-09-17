@@ -1,13 +1,11 @@
 import { PrismaClient } from "@prisma/client"
 import { responseError } from "../../utils/errors/ResponseError"
-import { setDefaultImage } from "../../utils/helpers/common/ImageSetter"
 
 const prisma = new PrismaClient()
 
 export const createNewGenre = async (req, res) => {
     let newGenre = null
 
-    //setDefaultImage(req, "imagen")
     try {
         newGenre = await prisma.genero.create({
             data: {

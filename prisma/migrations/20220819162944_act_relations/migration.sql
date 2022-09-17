@@ -5,10 +5,10 @@
 
 */
 -- DropForeignKey
-ALTER TABLE `pelicula` DROP FOREIGN KEY `Pelicula_idGenero_fkey`;
+ALTER TABLE `Pelicula` DROP FOREIGN KEY `Pelicula_idGenero_fkey`;
 
 -- AlterTable
-ALTER TABLE `pelicula` DROP COLUMN `idGenero`,
+ALTER TABLE `Pelicula` DROP COLUMN `idGenero`,
     MODIFY `fecha_creacion` DATETIME(0) NOT NULL;
 
 -- CreateTable

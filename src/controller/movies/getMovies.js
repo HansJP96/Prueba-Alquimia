@@ -8,7 +8,7 @@ export const getMoviesList = async (req, res) => {
     let movies = null
 
     const title = req.query.title
-    const genre = req.query.genre?.split(",").map((idGenre) => { return Number(idGenre) })
+    const genre = req.query.genre?.split(",").map((idGenre) => { return parseInt(idGenre) })
     const order = orderByAscDesc.includes(req.query.order) ? req.query.order : undefined
     
     try {
@@ -52,7 +52,7 @@ export const getMoviesList = async (req, res) => {
 export const getOneMovie = async (req, res) => {
     let movies = null
 
-    const paramId = Number(req.params.id)
+    const paramId = parseInt(req.params.id)
 
     try {
         movies = await prisma.pelicula.findUnique({

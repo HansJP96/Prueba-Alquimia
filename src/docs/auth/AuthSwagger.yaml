@@ -1,0 +1,60 @@
+paths:
+  /auth/register:
+    post:
+      summary: Crear nuevo usuario en la BD
+      tags: [Usuario]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Usuario"
+      responses:
+        201:
+          description: Objeto json con token de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Token de acceso
+                  emailStatus:
+                    type: string
+                    description: Estado del email enviado
+        400:
+          description: Valores de body no validos
+        500:
+          description: Error al registar nuevo usuario
+  /auth/login:
+    post:
+      summary: Verificar la existencia de usuario en la BD
+      tags: [Usuario]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Usuario"
+            example: 
+              email: robertorojas@gmail.com
+              contrasena: zxcvbnm 
+      responses:
+        200:
+          description: Objeto json con token de autenticacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Token de acceso
+        400:
+          description: Valores de body no validos
+        401:
+          description: Credenciales de usuario incorrectas
+
