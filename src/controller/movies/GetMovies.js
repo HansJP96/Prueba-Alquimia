@@ -8,11 +8,7 @@ export const getMoviesList = async (req, res) => {
     let movies = null
 
     const title = req.query.title
-<<<<<<< HEAD:src/controller/movies/getMovies.js
-    const genre = req.query.genre?.split(",").map((idGenre) => { return Number(idGenre) })
-=======
     const genre = req.query.genre?.split(",").map((idGenre) => { return parseInt(idGenre) })
->>>>>>> 800b683194698e736c1c45cb24f9192b759c97ef:src/controller/movies/GetMovies.js
     const order = orderByAscDesc.includes(req.query.order) ? req.query.order : undefined
     
     try {

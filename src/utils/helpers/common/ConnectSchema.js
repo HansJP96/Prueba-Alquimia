@@ -1,5 +1,3 @@
-import { PersonajeEnPelicula } from "../../../models/personaje_en_pelicula"
-
 export const createConnectFormat = (keyList, relationField, keyName) => {
     if (keyList === undefined || null) return undefined
 
