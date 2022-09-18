@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 export const updateOneCharacter = async (req, res) => {
     let characterUpdated = null
 
-    const paramId = Number(req.params.id)
+    const paramId = parseInt(req.params.id)
     const movies = req.body.peliculas
 
     try {

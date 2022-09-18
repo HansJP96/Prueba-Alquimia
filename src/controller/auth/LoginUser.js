@@ -47,5 +47,5 @@ export const logInUser = async (req, res) => {
 
     const genToken = await generateToken(getUser)
 
-    return res.status(201).send({ token: genToken })
+    return res.status(200).send({ token: genToken })
 }

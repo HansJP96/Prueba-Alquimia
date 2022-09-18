@@ -3,9 +3,9 @@ import { responseError } from "../../utils/errors/ResponseError"
 
 const prisma = new PrismaClient()
 
-export const deleteOneCharacter = async (res, req) => {
-    
-    const paramId = Number(req.params.id)
+export const deleteOneCharacter = async (req, res) => {
+
+    const paramId = parseInt(req.params.id)
 
     try {
         await prisma.personaje.delete({

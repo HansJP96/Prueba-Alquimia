@@ -5,11 +5,11 @@
 
 */
 -- AlterTable
-ALTER TABLE `genero` MODIFY `imagen` VARCHAR(500) NOT NULL DEFAULT 'https://whetstonefire.org/wp-content/uploads/2020/06/image-not-available.jpg';
+ALTER TABLE `Genero` MODIFY `imagen` VARCHAR(500) NOT NULL DEFAULT 'https://whetstonefire.org/wp-content/uploads/2020/06/image-not-available.jpg';
 
 -- AlterTable
-ALTER TABLE `pelicula` MODIFY `imagen` VARCHAR(500) NOT NULL DEFAULT 'https://whetstonefire.org/wp-content/uploads/2020/06/image-not-available.jpg';
+ALTER TABLE `Pelicula` MODIFY `imagen` VARCHAR(500) NOT NULL DEFAULT 'https://whetstonefire.org/wp-content/uploads/2020/06/image-not-available.jpg';
 
 -- AlterTable
-ALTER TABLE `personaje` MODIFY `peso` FLOAT NOT NULL,
+ALTER TABLE `Personaje` MODIFY `peso` FLOAT NOT NULL,
     MODIFY `imagen` VARCHAR(500) NOT NULL DEFAULT 'https://whetstonefire.org/wp-content/uploads/2020/06/image-not-available.jpg';

@@ -1,0 +1,28 @@
+components:
+  schemas:
+    Genero:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificador unico para el genero
+        nombre:
+          type: string
+          description: Nombre del genero
+        imagen:
+          type: string
+          description: Link de imagen representativa del genero
+          maxLength: 500
+        peliculas:
+          type: array
+          description: Lista de peliculas que contienen el genero
+          items:
+            type: object
+            $ref: "#/components/schemas/Pelicula"
+      required:
+        - id
+        - nombre
+      example: 
+        id: 25
+        nombre: Aventura
+        imagen: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg

@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 export const validateEmail = (req, res) => {
 
     const email = req.body.email
+=======
+export const validateEmail = (email, res) => {
+>>>>>>> 800b683194698e736c1c45cb24f9192b759c97ef
 
     const result = String(email)
         .toLowerCase()
@@ -21,8 +25,12 @@ export const validateEmail = (req, res) => {
     return true
 }
 
+<<<<<<< HEAD
 export const checkPasswordLength = (req, res) => {
     const password = req.body.contrasena
+=======
+export const checkPasswordLength = (password, res) => {
+>>>>>>> 800b683194698e736c1c45cb24f9192b759c97ef
 
     if (password.length < 4 || password.length > 30) {
         res.status(400).send(

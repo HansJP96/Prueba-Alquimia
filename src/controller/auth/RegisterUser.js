@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import { responseError } from "../../utils/errors/ResponseError"
 import { encrypter, generateToken, saltStructure } from "../../utils/helpers/auth/AuthFunctions"
+import { sendEmail } from "../../utils/helpers/auth/EmailSender"
 
 const prisma = new PrismaClient()
 
@@ -31,5 +32,5 @@ export const registerNewUser = async (req, res) => {
 
     const genToken = await generateToken(newUser)
 
-    return res.status(201).send({ token: genToken })
+    return sendEmail(newUser, genToken, res)
 }

@@ -1,0 +1,179 @@
+paths:
+  /movies:
+    get:
+      summary: Listado de Peliculas existentes
+      tags: [Pelicula]
+      parameters:
+        - in: query
+          name: title
+          schema:
+            type: string
+          description: Busqueda por titulo de pelicula (no es case sensitive)
+        - in: query
+          name: genre
+          schema:
+            type: array
+          style: form
+          explode: false
+          description: Filtro por genero de pelicula
+        - in: query
+          name: order
+          schema:
+            type: string
+            enum: [asc, desc]
+          description: Ordena la busqueda por fecha de creacion formato [AAAA-MM-DD]
+      responses:
+        200:
+          description: Objeto json con las propiedades de las peliculas
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: "#/components/schemas/Pelicula"
+              example:
+                - id: 45
+                  titulo: Pirates of the Caribbean
+                  fecha_creacion: 2003-07-09
+                  calificacion: 4
+                  imagen: https://static.wikia.nocookie.net/cine/images/6/62/Piratas_del_Caribe.jpg
+                  generos:
+                  - id: 38
+                    nombre: Piratas
+                    imagen: https://historia.nationalgeographic.com.es/medio/2019/11/21/representacion-de-la-batalla-entre-barbanegra-y-el-teniente-maynard-en-la-bahia-de-ocracoke_af600ece_1280x911.jpg
+                  personajes:
+                  - id: 11
+                    nombre: John Christopher Depp
+                    edad: 59
+                    peso: 74
+                    historia: John Christopher Depp II (born June 9, 1963) is an American actor and musician. He is the recipient of multiple accolades, including a Golden Globe Award and a Screen Actors Guild Award, in addition to nominations for three Academy Awards and two BAFTA awards
+                    imagen: https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Johnny_Depp_2020.jpg/220px-Johnny_Depp_2020.jpg
+        500:
+          description: Error obteniendo el listado de Peliculas
+    post:
+      summary: Crea nueva pelicula en la BD
+      tags: [Pelicula]
+      security:
+        - bearerAuth: []  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Pelicula"
+            example:
+                titulo: Pirates of the Caribbean
+                fecha_creacion: 2003-07-09
+                calificacion: 4
+                imagen: https://static.wikia.nocookie.net/cine/images/6/62/Piratas_del_Caribe.jpg
+                generos: [2,23]
+                personajes: [27,55,61]
+      responses:
+        201:
+          description: Objeto json con las propiedades de la pelicula creada
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Pelicula"
+              example:
+                id: 45
+                titulo: Pirates of the Caribbean
+                fecha_creacion: 2003-07-09
+                calificacion: 4
+                imagen: https://static.wikia.nocookie.net/cine/images/6/62/Piratas_del_Caribe.jpg
+                generos:
+                - id: 38
+                  nombre: Piratas
+                  imagen: https://historia.nationalgeographic.com.es/medio/2019/11/21/representacion-de-la-batalla-entre-barbanegra-y-el-teniente-maynard-en-la-bahia-de-ocracoke_af600ece_1280x911.jpg
+                personajes:
+                - id: 11
+                  nombre: John Christopher Depp
+                  edad: 59
+                  peso: 74
+                  historia: John Christopher Depp II (born June 9, 1963) is an American actor and musician. He is the recipient of multiple accolades, including a Golden Globe Award and a Screen Actors Guild Award, in addition to nominations for three Academy Awards and two BAFTA awards
+                  imagen: https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Johnny_Depp_2020.jpg/220px-Johnny_Depp_2020.jpg
+        400:
+          description: Valores de body no validos
+  /movies/{id}:
+    parameters:
+      - in: path
+        name: id
+        description: Id de la pelicula
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Obtener pelicula especificada
+      tags: [Pelicula]
+      responses:
+        200:
+          description: Objeto json con las propiedades de la pelicula
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: "#/components/schemas/Pelicula"
+              example:
+                id: 45
+                titulo: Pirates of the Caribbean
+                fecha_creacion: 2003-07-09
+                calificacion: 4
+                imagen: https://static.wikia.nocookie.net/cine/images/6/62/Piratas_del_Caribe.jpg
+                generos:
+                - id: 38
+                  nombre: Piratas
+                  imagen: https://historia.nationalgeographic.com.es/medio/2019/11/21/representacion-de-la-batalla-entre-barbanegra-y-el-teniente-maynard-en-la-bahia-de-ocracoke_af600ece_1280x911.jpg
+                personajes:
+                - id: 11
+                  nombre: John Christopher Depp
+                  edad: 59
+                  peso: 74
+                  historia: John Christopher Depp II (born June 9, 1963) is an American actor and musician. He is the recipient of multiple accolades, including a Golden Globe Award and a Screen Actors Guild Award, in addition to nominations for three Academy Awards and two BAFTA awards
+                  imagen: https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Johnny_Depp_2020.jpg/220px-Johnny_Depp_2020.jpg
+        500:
+          description: Error obteniendo el Pelicula
+    put:
+      summary: Modifica la informacion de un personaje
+      tags: [Pelicula]
+      security:
+        - bearerAuth: []  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/Pelicula"
+            example:
+              titulo: Pirates of the Caribbean
+              fecha_creacion: 2003-07-09
+              calificacion: 4
+              imagen: https://static.wikia.nocookie.net/cine/images/6/62/Piratas_del_Caribe.jpg
+              generos: [2,23]
+              personajes: [27,55,61]
+      responses:
+        204:
+          description: Estado ok de la modificacion
+        400:
+          description: Valores de body no validos
+        500:
+          description: Error modificando pelicula
+    delete:
+      summary: Eliminar Pelicula especificado
+      tags: [Pelicula]
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Objeto json validando eliminacion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Ok:
+                    type: string
+                    description: Confirmacion de Pelicula eliminado
+        500:
+          description: Error eliminando Pelicula

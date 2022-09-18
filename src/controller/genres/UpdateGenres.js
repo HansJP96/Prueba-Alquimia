@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 export const updateOneGenre = async (req, res) => {
     let genreUpdated = null
 
-    const paramId = Number(req.params.id)
+    const paramId = parseInt(req.params.id)
 
     try {
         genreUpdated = await prisma.genero.update({

@@ -1,4 +1,8 @@
+<<<<<<< HEAD:src/utils/errors/responseError.js
 import { codeError } from "./codeErrors"
+=======
+import { codeError } from "./CodeErrors"
+>>>>>>> 800b683194698e736c1c45cb24f9192b759c97ef:src/utils/errors/ResponseError.js
 import { prismaErrorHandler } from "./PrismaErrorHandler"
 import { javascriptRuntimeErrorHandler } from "./RunTimeErrorHandler"
 import { typeError } from "./TypeErrors"
