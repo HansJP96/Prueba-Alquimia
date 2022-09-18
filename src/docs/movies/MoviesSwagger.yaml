@@ -67,7 +67,6 @@ paths:
                 calificacion: 4
                 imagen: https://static.wikia.nocookie.net/cine/images/6/62/Piratas_del_Caribe.jpg
                 generos: [2,23]
-                personajes: [27,55,61]
       responses:
         201:
           description: Objeto json con las propiedades de la pelicula creada
